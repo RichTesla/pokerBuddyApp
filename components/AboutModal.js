@@ -9,12 +9,12 @@ import { APP_VERSION } from 'react-native-dotenv';
 import { Constants } from 'expo';
 
 export default class AboutModal extends Component {
-	
+
 	render() {
-		
+
 		let {width, height} = Dimensions.get('window');
 		let devText = null;
-		
+
 		if (__DEV__){
 			devText = (<Text>	Device: <Text style={styles.boldText}>{(Platform.OS==='android' ? Constants.deviceName : Constants.platform.ios.model)}</Text>{"\n"}
 								Dimensions: <Text style={styles.boldText}>{Math.floor(height) + "/" + Math.floor(width)}</Text>{"\n\n"}</Text>);
@@ -26,8 +26,8 @@ export default class AboutModal extends Component {
 					{devText}
 					Developer: <Text style={styles.boldText}>Rotem Cohen</Text>{"\n"}
 					<Text style={styles.home_boldLink} onPress={
-						()=>Linking.openURL('mailto:hecodesthings@gmail.com?subject=Pocat v'+APP_VERSION)
-					}>hecodesthings@gmail.com</Text>
+						()=>Linking.openURL('mailto:akzhol.ibraimov@gmail.com?subject=Pocat v'+APP_VERSION)
+					}>akzhol.ibraimov@gmail.com</Text>
 				</Text>
 				<Text style={[styles.regularText,{marginTop:10,textAlign:'center'}]}>
 					<Text style={styles.boldText}>Pocat</Text> makes it easy and fun to play casual poker with friends.{"\n\n"}

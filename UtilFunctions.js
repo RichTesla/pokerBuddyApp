@@ -23,7 +23,7 @@ export async function fetchFromServer(relative_url,method,body_dict,token=null){
 	let content = {};
 	content['method'] = method;
 	content['headers'] = headers;
-	
+
 	console.log(
 		"====================="
 		+ "\n" +"API request type: " + method
@@ -38,6 +38,7 @@ export async function fetchFromServer(relative_url,method,body_dict,token=null){
 	}
 
 	//TODO: handle promise error
+	console.log("API URL:1 ", SERVER_ADDRESS + relative_url);
 	const response = await fetch(SERVER_ADDRESS + relative_url, content);
 
 	//TODO: return error that says something
@@ -48,11 +49,11 @@ export async function fetchFromServer(relative_url,method,body_dict,token=null){
 	}
 	console.log("\n" + "=====================");
 	return response;
-	
+
 }
 
 export async function joinGame(game_identifier,token,user){
-	
+
 	//current user (whose token it is) might not be the user joining game
 	//TODO: allow a host to add a different user to the game
 
@@ -87,8 +88,8 @@ export async function loginWithCreds(username,password){
 	}
 	if (response.status===200){
 		const responseJson = await response.json();
-		
-		let token = responseJson.token;	
+
+		let token = responseJson.token;
 		let userObj = responseJson.user;
 		let user = JSON.stringify(userObj);
 		//console.log("Recieved token: " + token);
@@ -151,7 +152,7 @@ export async function leave_game(result_amount,game_identifier,token,player_id=n
 
 		let game = JSON.parse(gameString);
 		return game;
-	}	
+	}
 }
 
 export async function user_registration(form,login=true) {
@@ -205,7 +206,7 @@ export async function registerForPushNotificationsAsync(user_id) {
 	response = await fetchFromServer('users/'+ user_id +'/push_token/','POST',{
 			push_token: token,
 		},null);
-	
+
 	if (response.status === 200){
 		user = await response.json();
 		return {user: user,error:'None'};
@@ -215,9 +216,9 @@ export async function registerForPushNotificationsAsync(user_id) {
 }
 
 export async function RedirectToGame(navigation){
-        
+
     const data = await AsyncStorage.multiGet(['@pokerBuddy:token','@pokerBuddy:user','@pokerBuddy:currentGame']);
-    
+
     if (data){
     	var token = (data[0][1]!==null) ? data[0][1] : null;
     	var user = (data[1][1]!==null) ? JSON.parse(data[1][1]) : null;
@@ -227,14 +228,14 @@ export async function RedirectToGame(navigation){
     //backwards compatibility
     //TODO: remove from code versions that are no longer in use
     if (token && user){
-	    
+
 	    if (typeof user.app_version === 'undefined'){
 
 	    	//temp app version, cause users with older versions won't have it in their saved user object
 	    	user.app_version = "1.2";
 
 	    }else if (user.app_version === "1.3" || user.app_version === "1.4"){
-	    	
+
 	    	//latest, do nothing
 
 	    }else{
@@ -293,9 +294,9 @@ export function useVenmo(method,recipient=null,amount=null,note=null) {
 	let recipient_field = this.getUrlField(recipient,"&recipients=");
 	let amount_field = this.getUrlField(amount,"&amount=");
 	let note_field = this.getUrlField(note,"&note=");
-	
+
 	var url = "venmo://paycharge?txn="+ method + recipient_field + amount_field + note_field;
-		
+
 	AppLink.maybeOpenURL(url, { appName: 'Venmo', appStoreId: 'id351727428', playStoreId: 'com.venmo'}).then(() => {
 	  // console.log("app link success");
 	})
